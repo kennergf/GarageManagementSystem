@@ -15,5 +15,7 @@ namespace GarageManagementSystem.Enums
         Van,
         Pickup,
         MiniBus,
+        Limousine,
+        Other,
     }
 }
