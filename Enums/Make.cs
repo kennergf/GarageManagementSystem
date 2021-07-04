@@ -10,6 +10,7 @@ namespace GarageManagementSystem.Enums
         Chevrolet,
         Dacia,
         Dodge,
+        Fiat,
         Ford,
         Isuzu,
         Jaguar,
