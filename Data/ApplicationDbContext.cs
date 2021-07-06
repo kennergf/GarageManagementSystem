@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using GarageManagementSystem.Models;
@@ -13,5 +13,6 @@ namespace GarageManagementSystem.Data
             : base(options)
         {
         }
+        public DbSet<GarageManagementSystem.Models.Vehicle> Vehicle { get; set; }
     }
 }

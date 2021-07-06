@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using GarageManagementSystem.Models;
+using GarageManagementSystem.Services;
 
 namespace GarageManagementSystem
 {
@@ -35,6 +36,10 @@ namespace GarageManagementSystem
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            // Add DataBase using DI to be easy to change for NoSQL for example
+            services.AddScoped<IDataBase, DataBase>();
+
             services.AddControllersWithViews();
         }
 
