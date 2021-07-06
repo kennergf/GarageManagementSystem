@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace GarageManagementSystem.Models
 {
     public class Invoice
     {
+        [Key]
         public string Id { get; set; }
         public string Customer {get;set;}
         public string Phone {get;set;}
