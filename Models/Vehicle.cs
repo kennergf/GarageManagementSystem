@@ -14,11 +14,24 @@ namespace GarageManagementSystem.Models
         /// When Deleted, it can not be used for new services
         /// </summary>
         /// <value></value>
-        public bool Deleted { get; set; }
+        private bool Deleted { get; set; }
         public string Licence { get; set; }
         public CarType Type { get; set; }
 
         [Display(Name = "Engine Type")]
         public EngineType EngineType { get; set; }
+
+        [ForeignKey("ApplicationUser")]
+        public string ApplicationUserId { get; set; }
+
+        public bool IsDeleted()
+        {
+            return Deleted;
+        }
+
+        public void MarkAsDeleted()
+        {
+            this.Deleted = true;
+        }
     }
 }

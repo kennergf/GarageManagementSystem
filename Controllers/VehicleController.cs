@@ -1,13 +1,11 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GarageManagementSystem.Data;
 using GarageManagementSystem.Models;
 using GarageManagementSystem.Services;
+using Microsoft.AspNetCore.Identity;
 
 namespace GarageManagementSystem.Controllers
 {
@@ -15,11 +13,13 @@ namespace GarageManagementSystem.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IDataBase _db;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public VehicleController(ApplicationDbContext context, IDataBase db)
+        public VehicleController(ApplicationDbContext context, IDataBase db, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _db = db;
+            _userManager = userManager;
         }
 
         // GET: Vehicle
@@ -54,13 +54,14 @@ namespace GarageManagementSystem.Controllers
 
         // POST: Vehicle/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Licence,Type,EngineType")] Vehicle vehicle)
         {
             if (ModelState.IsValid)
             {
+                var user = _context.Users.Where(u => u.UserName == User.Identity.Name).First();
+                vehicle.ApplicationUserId = user.Id;
                 //_db.Add(vehicle);
                 _context.Add(vehicle);
                 await _context.SaveChangesAsync();
@@ -87,10 +88,9 @@ namespace GarageManagementSystem.Controllers
 
         // POST: Vehicle/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Licence,Type,EngineType")] Vehicle vehicle)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Licence,Type,EngineType,ApplicationUserId")] Vehicle vehicle)
         {
             if (id != vehicle.Id)
             {
@@ -145,7 +145,7 @@ namespace GarageManagementSystem.Controllers
         {
             var vehicle = await _context.Vehicle.FindAsync(id);
             // Created tag Deleted to do not break previous services
-            vehicle.Deleted = true;
+            vehicle.MarkAsDeleted();
 
             try
             {
