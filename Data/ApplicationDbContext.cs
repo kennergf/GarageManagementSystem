@@ -14,5 +14,6 @@ namespace GarageManagementSystem.Data
         {
         }
         public DbSet<GarageManagementSystem.Models.Vehicle> Vehicle { get; set; }
+        public DbSet<GarageManagementSystem.Models.Booking> Booking { get; set; }
     }
 }

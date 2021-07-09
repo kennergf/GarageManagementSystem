@@ -14,7 +14,7 @@ namespace GarageManagementSystem.Models
         /// When Deleted, it can not be used for new services
         /// </summary>
         /// <value></value>
-        private bool Deleted { get; set; }
+        public bool Deleted { get; set; }
         public string Licence { get; set; }
         public CarType Type { get; set; }
 
