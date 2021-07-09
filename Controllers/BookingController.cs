@@ -52,6 +52,10 @@ namespace GarageManagementSystem.Controllers
             var user = _context.Users.Where(u => u.UserName == User.Identity.Name).First();
             // Recover Vehicle of the user
             user.Vehicles = _context.Vehicle.Where(v => v.ApplicationUserId == user.Id).ToList();
+            
+            // Create instance of service to get available dates
+            BookingProvider provider = new BookingProvider();
+
             BookingViewModel bookingViewModel = new BookingViewModel
             {
                 CustomerId = user.Id,
@@ -60,10 +64,12 @@ namespace GarageManagementSystem.Controllers
                     Value = v.Id,
                     Text = v.Licence,
                 }).ToList(),
+                AvailableDates = provider.GetAvailabelDates().Select(d => new SelectListItem
+                {
+                    Value = d.ToString(),
+                    Text = d.ToString(),
+                }).ToList(),
             };
-
-            BookingProvider provider = new BookingProvider();
-            provider.GetAvailabelDates();
 
             return View(bookingViewModel);
         }

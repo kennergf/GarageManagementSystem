@@ -22,5 +22,6 @@ namespace GarageManagementSystem.ViewModels
         public string Comment { get; set; }
 
         public List<SelectListItem> Vehicles { get; set; }
+        public List<SelectListItem> AvailableDates { get; set; }
     }
 }
