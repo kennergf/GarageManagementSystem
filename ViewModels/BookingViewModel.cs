@@ -8,6 +8,7 @@ namespace GarageManagementSystem.ViewModels
 {
     public class BookingViewModel
     {
+        public string Id { get; set; }
         public string CustomerId { get; set; }
 
         [Display(Name = "Vehicle")]

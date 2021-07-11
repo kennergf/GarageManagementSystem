@@ -52,7 +52,7 @@ namespace GarageManagementSystem.Controllers
             var user = _context.Users.Where(u => u.UserName == User.Identity.Name).First();
             // Recover Vehicle of the user
             user.Vehicles = _context.Vehicle.Where(v => v.ApplicationUserId == user.Id).ToList();
-            
+
             // Create instance of service to get available dates
             BookingProvider provider = new BookingProvider();
 
@@ -79,15 +79,37 @@ namespace GarageManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,BookingType,Date,Comment")] Booking booking)
+        public async Task<IActionResult> Create([Bind("CustomerId,VehicleId,BookingType,Date,Comment")] BookingViewModel bookingViewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(booking);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    var booking = new Booking
+                    {
+                        Customer = _context.Users.First(c => c.Id == bookingViewModel.CustomerId),
+                        Vehicle = _context.Vehicle.First(v => v.Id == bookingViewModel.VehicleId),
+                        BookingType = bookingViewModel.BookingType,
+                        Date = bookingViewModel.Date,
+                        Comment = bookingViewModel.Comment,
+                    };
+                    _context.Add(booking);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (string.IsNullOrWhiteSpace(bookingViewModel.CustomerId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
-            return View(booking);
+            return View(bookingViewModel);
         }
 
         // GET: Booking/Edit/5
@@ -103,7 +125,34 @@ namespace GarageManagementSystem.Controllers
             {
                 return NotFound();
             }
-            return View(booking);
+
+            // Recover data of logged user from Database
+            var user = _context.Users.Where(u => u.UserName == User.Identity.Name).First();
+            // Recover Vehicle of the user
+            user.Vehicles = _context.Vehicle.Where(v => v.ApplicationUserId == user.Id).ToList();
+            // Create instance of service to get available dates
+            BookingProvider provider = new BookingProvider();
+            // Create view model
+            BookingViewModel bookingViewModel = new BookingViewModel
+            {
+                CustomerId = user.Id,
+                VehicleId = booking.VehicleId,
+                BookingType = booking.BookingType,
+                Date = booking.Date,
+                Comment = booking.Comment,
+                Vehicles = user.Vehicles.Select(v => new SelectListItem
+                {
+                    Value = v.Id,
+                    Text = v.Licence,
+                }).ToList(),
+                AvailableDates = provider.GetAvailabelDates().Select(d => new SelectListItem
+                {
+                    Value = d.ToString(),
+                    Text = d.ToString(),
+                }).ToList(),
+            };
+
+            return View(bookingViewModel);
         }
 
         // POST: Booking/Edit/5
@@ -111,9 +160,9 @@ namespace GarageManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,BookingType,Date,Comment")] Booking booking)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,CustomerId,VehicleId,BookingType,Date,Comment")] BookingViewModel bookingViewModel)
         {
-            if (id != booking.Id)
+            if (id != bookingViewModel.Id)
             {
                 return NotFound();
             }
@@ -122,12 +171,21 @@ namespace GarageManagementSystem.Controllers
             {
                 try
                 {
+                    var booking = new Booking
+                    {
+                        Id = bookingViewModel.Id,
+                        CustomerId = bookingViewModel.CustomerId,
+                        VehicleId = bookingViewModel.VehicleId,
+                        BookingType = bookingViewModel.BookingType,
+                        Date = bookingViewModel.Date,
+                        Comment = bookingViewModel.Comment,
+                    };
                     _context.Update(booking);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BookingExists(booking.Id))
+                    if (!BookingExists(bookingViewModel.Id))
                     {
                         return NotFound();
                     }
@@ -138,7 +196,7 @@ namespace GarageManagementSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(booking);
+            return View(bookingViewModel);
         }
 
         // GET: Booking/Delete/5

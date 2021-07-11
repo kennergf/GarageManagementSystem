@@ -1,4 +1,5 @@
-@model GarageManagementSystem.Models.Booking
+@model GarageManagementSystem.ViewModels.BookingViewModel
+@using GarageManagementSystem.Enums
 
 @{
     ViewData["Title"] = "Edit";
@@ -13,19 +14,25 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="CustomerId" />
+            <div class="form-group">
+                <label asp-for="VehicleId" class="control-label"></label>
+                <select asp-for="VehicleId" class="form-control" asp-items="Model.Vehicles"></select>
+                <span asp-validation-for="VehicleId" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="BookingType" class="control-label"></label>
-                <select asp-for="BookingType" class="form-control"></select>
+                <select asp-for="BookingType" class="form-control" asp-items="Html.GetEnumSelectList<BookingType>()"></select>
                 <span asp-validation-for="BookingType" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
+                <select asp-for="Date" class="form-control" asp-items="Model.AvailableDates"></select>
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Comment" class="control-label"></label>
-                <input asp-for="Comment" class="form-control" />
+                <textarea rows="3" asp-for="Comment" class="form-control"></textarea>
                 <span asp-validation-for="Comment" class="text-danger"></span>
             </div>
             <div class="form-group">
