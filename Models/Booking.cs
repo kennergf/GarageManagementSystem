@@ -23,9 +23,10 @@ namespace GarageManagementSystem.Models
         [Required]
         public Vehicle Vehicle { get; set; }
 
+        [Display(Name = "Booking Type")]
         public BookingType BookingType { get; set; }
 
-        [Required]
+        [Required, Display(Name = "Date of Booking")]
         public DateTime Date { get; set; }
 
         public string Comment { get; set; }
