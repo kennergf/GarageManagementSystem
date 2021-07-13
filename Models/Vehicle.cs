@@ -22,7 +22,7 @@ namespace GarageManagementSystem.Models
         public EngineType EngineType { get; set; }
 
         [ForeignKey("ApplicationUser")]
-        public string ApplicationUserId { get; set; }
+        public string CustomerId { get; set; }
 
         public bool IsDeleted()
         {

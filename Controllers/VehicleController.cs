@@ -61,7 +61,7 @@ namespace GarageManagementSystem.Controllers
             if (ModelState.IsValid)
             {
                 var user = _context.Users.Where(u => u.UserName == User.Identity.Name).First();
-                vehicle.ApplicationUserId = user.Id;
+                vehicle.CustomerId = user.Id;
                 //_db.Add(vehicle);
                 _context.Add(vehicle);
                 await _context.SaveChangesAsync();

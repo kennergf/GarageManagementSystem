@@ -54,7 +54,7 @@ namespace GarageManagementSystem.Controllers
             // Recover data of logged user from Database
             var user = _context.Users.Where(u => u.UserName == User.Identity.Name).First();
             // Recover Vehicle of the user
-            user.Vehicles = _context.Vehicle.Where(v => v.ApplicationUserId == user.Id).ToList();
+            user.Vehicles = _context.Vehicle.Where(v => v.CustomerId == user.Id).ToList();
 
             // Create instance of service to get available dates
             BookingProvider provider = new BookingProvider();
@@ -132,7 +132,7 @@ namespace GarageManagementSystem.Controllers
             // Recover data of logged user from Database
             var user = _context.Users.Where(u => u.UserName == User.Identity.Name).First();
             // Recover Vehicle of the user
-            user.Vehicles = _context.Vehicle.Where(v => v.ApplicationUserId == user.Id).ToList();
+            user.Vehicles = _context.Vehicle.Where(v => v.CustomerId == user.Id).ToList();
             // Create instance of service to get available dates
             BookingProvider provider = new BookingProvider();
             // Create view model
