@@ -32,8 +32,8 @@ namespace GarageManagementSystem.Services
             // Start at the time the garage open
             var targetDate = today.AddHours(TIMEGARAGEOPEN - today.Hour);
             // Number of days starting from today that will be available to the user
-            double numberDaysAvailable = today.DayOfWeek >= OPENNEXTWEEK ? ((double)DAYGARAGECLOSED) + 7 + (7 - (double)today.DayOfWeek) : (7 - (double)today.DayOfWeek);
-            while (targetDate < today.AddDays(numberDaysAvailable))
+            double numberOfDaysAvailable = today.DayOfWeek >= OPENNEXTWEEK ? ((double)DAYGARAGECLOSED) + 7 + (7 - (double)today.DayOfWeek) : (7 - (double)today.DayOfWeek);
+            while (targetDate < today.AddDays(numberOfDaysAvailable))
             {
                 if (targetDate.DayOfWeek != DAYGARAGECLOSED)
                 {

@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 
+// REF https://www.c-sharpcorner.com/article/adding-role-authorization-to-a-asp-net-mvc-core-application/
 namespace GarageManagementSystem.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
@@ -85,6 +86,7 @@ namespace GarageManagementSystem.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
+                    // REF https://www.c-sharpcorner.com/article/adding-roles-to-registration-razor-page-in-asp-net-core-razor-pages-web-applicat/
                     // Add Roles
                     if (!await _roleManager.RoleExistsAsync("Customer"))
                     {

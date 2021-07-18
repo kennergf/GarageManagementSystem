@@ -25,7 +25,9 @@ namespace GarageManagementSystem.Controllers
         // GET: Vehicle
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Vehicle.ToListAsync());
+            // Recover data of logged user from Database
+            var user = _context.Users.Where(u => u.UserName == User.Identity.Name).First();
+            return View(await _context.Vehicle.Where(v => v.CustomerId == user.Id).ToListAsync());
         }
 
         // GET: Vehicle/Details/5
