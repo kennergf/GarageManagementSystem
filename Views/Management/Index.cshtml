@@ -1,0 +1,88 @@
+@model IEnumerable<GarageManagementSystem.ViewModels.RosteringBookingViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Index">
+            <div class="form-inline">
+                <div class="form-group col-md-5">
+                    <label class="control-label">Initial Date</label>
+                    <input class="form-control" name="InitialDate" type="datetime-local"
+                        asp-format="{0:yyyy-MM-ddTHH:mm}">
+                </div>
+                <div class="form-group col-md-5">
+                    <label class="control-label">Final Date</label>
+                    <input class="form-control" name="FinalDate" type="datetime" asp-format="{0:yyyy-MM-ddTHH:mm}">
+                </div>
+                <div class="form-group col-md-2">
+                    <input type="submit" value="Search" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<hr />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VehicleLicence)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookingType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MechanicName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VehicleLicence)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookingType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comment)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MechanicName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

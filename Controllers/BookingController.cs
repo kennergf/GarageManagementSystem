@@ -26,9 +26,8 @@ namespace GarageManagementSystem.Controllers
         // GET: Booking
         public async Task<IActionResult> Index()
         {
-            var booking = await _context.Booking.ToListAsync();
-            booking.ForEach(b => b.Vehicle = _context.Vehicle.First(v => v.Id == b.VehicleId));
-            return View(booking);
+            var bookings = await _context.Booking.Include(b => b.Customer).Include(b => b.Vehicle).ToListAsync();
+            return View(bookings);
         }
 
         // GET: Booking/Details/5
@@ -240,7 +239,7 @@ namespace GarageManagementSystem.Controllers
                 BookingType = booking.BookingType,
                 Date = booking.Date,
                 Comment = booking.Comment,
-                Vehicles = _context.Vehicle.Where(v => v.Id == booking.CustomerId).Select(v => new SelectListItem
+                Vehicles = _context.Vehicle.Where(v => v.CustomerId == booking.CustomerId).Select(v => new SelectListItem
                 {
                     Value = v.Id,
                     Text = v.Licence,
