@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GarageManagementSystem.Services
 {
-    public class BookingProvider
+    public class BookingProvider : IBookingProvider
     {
         /// <summary>
         /// Day that the booking for next week is made available

@@ -41,6 +41,9 @@ namespace GarageManagementSystem
             // Add DataBase using DI to be easy to change for NoSQL for example
             services.AddScoped<IDataBase, DataBase>();
 
+            // Add service that provides available dates by Dependency Injection
+            services.AddScoped<IBookingProvider, BookingProvider>();
+
             services.AddControllersWithViews();
         }
 

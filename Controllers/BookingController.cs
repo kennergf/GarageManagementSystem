@@ -15,10 +15,12 @@ namespace GarageManagementSystem.Controllers
     public class BookingController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IBookingProvider _bookingProvider;
 
-        public BookingController(ApplicationDbContext context)
+        public BookingController(ApplicationDbContext context, IBookingProvider bookingProvider)
         {
             _context = context;
+            _bookingProvider = bookingProvider;
         }
 
         // GET: Booking
@@ -56,9 +58,6 @@ namespace GarageManagementSystem.Controllers
             // Recover Vehicle of the user
             user.Vehicles = _context.Vehicle.Where(v => v.CustomerId == user.Id).ToList();
 
-            // Create instance of service to get available dates
-            BookingProvider provider = new BookingProvider();
-
             BookingViewModel bookingViewModel = new BookingViewModel
             {
                 CustomerId = user.Id,
@@ -67,7 +66,7 @@ namespace GarageManagementSystem.Controllers
                     Value = v.Id,
                     Text = v.Licence,
                 }).ToList(),
-                AvailableDates = provider.GetAvailabelDates().Select(d => new SelectListItem
+                AvailableDates = _bookingProvider.GetAvailabelDates().Select(d => new SelectListItem
                 {
                     Value = d.ToString(),
                     Text = d.ToString(),
@@ -133,8 +132,6 @@ namespace GarageManagementSystem.Controllers
             var user = _context.Users.Where(u => u.UserName == User.Identity.Name).First();
             // Recover Vehicle of the user
             user.Vehicles = _context.Vehicle.Where(v => v.CustomerId == user.Id).ToList();
-            // Create instance of service to get available dates
-            BookingProvider provider = new BookingProvider();
             // Create view model
             BookingViewModel bookingViewModel = new BookingViewModel
             {
@@ -143,17 +140,9 @@ namespace GarageManagementSystem.Controllers
                 BookingType = booking.BookingType,
                 Date = booking.Date,
                 Comment = booking.Comment,
-                Vehicles = user.Vehicles.Select(v => new SelectListItem
-                {
-                    Value = v.Id,
-                    Text = v.Licence,
-                }).ToList(),
-                AvailableDates = provider.GetAvailabelDates().Select(d => new SelectListItem
-                {
-                    Value = d.ToString(),
-                    Text = d.ToString(),
-                }).ToList(),
             };
+            bookingViewModel.SetVehicles(user.Vehicles);
+            bookingViewModel.SetAvailableDates(_bookingProvider.GetAvailabelDates());
 
             return View(bookingViewModel);
         }
@@ -235,6 +224,40 @@ namespace GarageManagementSystem.Controllers
         private bool BookingExists(string id)
         {
             return _context.Booking.Any(e => e.Id == id);
+        }
+    
+        public async Task<IActionResult> Rostering()
+        {
+            var bookings = await _context.Booking.ToListAsync();
+            bookings.ForEach(b => b.Vehicle = _context.Vehicle.First(v => v.Id == b.VehicleId));
+
+            var rosterings = new List<RosteringBookingViewModel>();
+            bookings.ForEach(booking => rosterings.Add(new RosteringBookingViewModel
+            {
+                Id = booking.Id,
+                CustomerId = booking.CustomerId,
+                VehicleId = booking.VehicleId,
+                BookingType = booking.BookingType,
+                Date = booking.Date,
+                Comment = booking.Comment,
+                Vehicles = _context.Vehicle.Where(v => v.Id == booking.CustomerId).Select(v => new SelectListItem
+                {
+                    Value = v.Id,
+                    Text = v.Licence,
+                }).ToList(),
+                AvailableDates = _bookingProvider.GetAvailabelDates().Select(d => new SelectListItem
+                {
+                    Value = d.ToString(),
+                    Text = d.ToString(),
+                }).ToList(),
+                Mechanics = _context.Users.ToList().Select(v => new SelectListItem
+                {
+                    Value = v.Id,
+                    Text = v.UserName,
+                }).ToList(),
+            }));
+
+            return View(rosterings.AsQueryable());
         }
     }
 }
