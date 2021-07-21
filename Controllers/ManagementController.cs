@@ -29,11 +29,11 @@ namespace GarageManagementSystem.Controllers
             var bookings = await _context.Booking.Include(b => b.Customer).Include(b => b.Vehicle).ToListAsync();
 
             // Filter only if Date is from one years backward or forward
-            if (FinalDate > DateTime.Today.AddYears(-1))
+            if (InitialDate.Year > 2020 && InitialDate > DateTime.Today.AddYears(-1))
             {
                 bookings = bookings.Where(b => b.Date >= InitialDate).ToList();
             }
-            if (FinalDate > DateTime.Today.AddYears(1))
+            if (FinalDate.Year > 2020 && FinalDate < DateTime.Today.AddYears(1))
             {
                 bookings = bookings.Where(b => b.Date <= FinalDate).ToList();
             }
@@ -65,6 +65,8 @@ namespace GarageManagementSystem.Controllers
                 }).ToList(),
             }));
 
+            ViewBag.InitialDate = InitialDate;
+            ViewBag.FinalDate = FinalDate;
             return View(rosterings);
         }
 

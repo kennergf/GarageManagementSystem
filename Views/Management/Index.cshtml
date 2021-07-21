@@ -16,12 +16,12 @@
             <div class="form-inline">
                 <div class="form-group col-md-5">
                     <label class="control-label">Initial Date</label>
-                    <input class="form-control" name="InitialDate" type="datetime-local"
+                    <input class="form-control" name="InitialDate" type="datetime-local" value="@ViewBag.InitialDate"
                         asp-format="{0:yyyy-MM-ddTHH:mm}">
                 </div>
                 <div class="form-group col-md-5">
                     <label class="control-label">Final Date</label>
-                    <input class="form-control" name="FinalDate" type="datetime" asp-format="{0:yyyy-MM-ddTHH:mm}">
+                    <input class="form-control" name="FinalDate" type="datetime" value="@ViewBag.FinalDate" asp-format="{0:yyyy-MM-ddTHH:mm}">
                 </div>
                 <div class="form-group col-md-2">
                     <input type="submit" value="Search" class="btn btn-primary" />
