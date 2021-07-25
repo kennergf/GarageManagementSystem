@@ -42,9 +42,9 @@ namespace GarageManagementSystem.Controllers
             bookings.ForEach(booking => rosterings.Add(new RosteringBookingViewModel
             {
                 Id = booking.Id,
-                CustomerName = booking.Customer.UserName,
+                CustomerName = booking.Customer.Name,
                 VehicleLicence = booking.Vehicle.Licence,
-                MechanicName = booking.Mechanic?.UserName,
+                MechanicName = booking.Mechanic?.Name,
                 BookingType = booking.BookingType,
                 Date = booking.Date,
                 Status = booking.Status,
@@ -62,7 +62,7 @@ namespace GarageManagementSystem.Controllers
                 Mechanics = _context.Users.ToList().Select(v => new SelectListItem
                 {
                     Value = v.Id,
-                    Text = v.UserName,
+                    Text = v.Name,
                 }).ToList(),
             }));
 
@@ -90,9 +90,9 @@ namespace GarageManagementSystem.Controllers
             bookings.ForEach(booking => rosterings.Add(new RosteringBookingViewModel
             {
                 Id = booking.Id,
-                CustomerName = booking.Customer.UserName,
+                CustomerName = booking.Customer.Name,
                 VehicleLicence = booking.Vehicle.Licence,
-                MechanicName = booking.Mechanic?.UserName,
+                MechanicName = booking.Mechanic?.Name,
                 BookingType = booking.BookingType,
                 Date = booking.Date,
                 Status = booking.Status,
@@ -110,7 +110,7 @@ namespace GarageManagementSystem.Controllers
                 Mechanics = _context.Users.ToList().Select(v => new SelectListItem
                 {
                     Value = v.Id,
-                    Text = v.UserName,
+                    Text = v.Name,
                 }).ToList(),
             }));
 
@@ -179,9 +179,9 @@ namespace GarageManagementSystem.Controllers
             {
                 return NotFound();
             }
-            ViewData["CustomerId"] = new SelectList(_context.Users, "Id", "UserName", booking.CustomerId);
+            ViewData["CustomerId"] = new SelectList(_context.Users, "Id", "Name", booking.CustomerId);
             ViewData["VehicleId"] = new SelectList(_context.Vehicle, "Id", "Licence", booking.VehicleId);
-            ViewData["MechanicId"] = new SelectList(_context.Users, "Id", "UserName", booking.MechanicId);
+            ViewData["MechanicId"] = new SelectList(_context.Users, "Id", "Name", booking.MechanicId);
 
             var rosteringBookingViewModel = new RosteringBookingViewModel
             {
@@ -205,7 +205,7 @@ namespace GarageManagementSystem.Controllers
                 Mechanics = _context.Users.ToList().Select(v => new SelectListItem
                 {
                     Value = v.Id,
-                    Text = v.UserName,
+                    Text = v.Name,
                 }).ToList(),
             };
 

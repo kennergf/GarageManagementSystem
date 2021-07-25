@@ -252,7 +252,7 @@ namespace GarageManagementSystem.Controllers
                 Mechanics = _context.Users.ToList().Select(v => new SelectListItem
                 {
                     Value = v.Id,
-                    Text = v.UserName,
+                    Text = v.Name,
                 }).ToList(),
             }));
 

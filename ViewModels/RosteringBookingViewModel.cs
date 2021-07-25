@@ -29,7 +29,7 @@ namespace GarageManagementSystem.ViewModels
             this.Mechanics = mechanics.Select(m => new SelectListItem
             {
                 Value = m.Id,
-                Text = m.UserName,
+                Text = m.Name,
             }).ToList();
         }
     }
