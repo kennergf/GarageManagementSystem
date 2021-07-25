@@ -26,13 +26,15 @@ namespace GarageManagementSystem.Models
         [ForeignKey("ApplicationUser")]
         public string MechanicId { get; set; }
 
-        public ApplicationUser Mechanic {get;set;}
-        
+        public ApplicationUser Mechanic { get; set; }
+
         [Display(Name = "Booking Type")]
         public BookingType BookingType { get; set; }
 
         [Required, Display(Name = "Date of Booking")]
         public DateTime Date { get; set; }
+
+        public Status Status { get; set; }
 
         public string Comment { get; set; }
     }
