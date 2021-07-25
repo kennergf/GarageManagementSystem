@@ -47,6 +47,7 @@ namespace GarageManagementSystem.Controllers
                 MechanicName = booking.Mechanic?.UserName,
                 BookingType = booking.BookingType,
                 Date = booking.Date,
+                Status = booking.Status,
                 Comment = booking.Comment,
                 Vehicles = _context.Vehicle.Where(v => v.Id == booking.CustomerId).Select(v => new SelectListItem
                 {
@@ -65,6 +66,55 @@ namespace GarageManagementSystem.Controllers
                 }).ToList(),
             }));
 
+            // REF https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/introduction/adding-search
+            ViewBag.InitialDate = InitialDate;
+            ViewBag.FinalDate = FinalDate;
+            return View(rosterings);
+        }
+
+        public async Task<IActionResult> PrintSchedule(DateTime InitialDate, DateTime FinalDate)
+        {
+            var bookings = await _context.Booking.Include(b => b.Customer).Include(b => b.Vehicle).ToListAsync();
+
+            // Filter only if Date is from one years backward or forward
+            if (InitialDate.Year > 2020 && InitialDate > DateTime.Today.AddYears(-1))
+            {
+                bookings = bookings.Where(b => b.Date >= InitialDate).ToList();
+            }
+            if (FinalDate.Year > 2020 && FinalDate < DateTime.Today.AddYears(1))
+            {
+                bookings = bookings.Where(b => b.Date <= FinalDate).ToList();
+            }
+
+            var rosterings = new List<RosteringBookingViewModel>();
+            bookings.ForEach(booking => rosterings.Add(new RosteringBookingViewModel
+            {
+                Id = booking.Id,
+                CustomerName = booking.Customer.UserName,
+                VehicleLicence = booking.Vehicle.Licence,
+                MechanicName = booking.Mechanic?.UserName,
+                BookingType = booking.BookingType,
+                Date = booking.Date,
+                Status = booking.Status,
+                Comment = booking.Comment,
+                Vehicles = _context.Vehicle.Where(v => v.Id == booking.CustomerId).Select(v => new SelectListItem
+                {
+                    Value = v.Id,
+                    Text = v.Licence,
+                }).ToList(),
+                AvailableDates = _bookingProvider.GetAvailabelDates().Select(d => new SelectListItem
+                {
+                    Value = d.ToString(),
+                    Text = d.ToString(),
+                }).ToList(),
+                Mechanics = _context.Users.ToList().Select(v => new SelectListItem
+                {
+                    Value = v.Id,
+                    Text = v.UserName,
+                }).ToList(),
+            }));
+
+            // REF https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/introduction/adding-search
             ViewBag.InitialDate = InitialDate;
             ViewBag.FinalDate = FinalDate;
             return View(rosterings);
@@ -140,6 +190,7 @@ namespace GarageManagementSystem.Controllers
                 MechanicId = booking.MechanicId,
                 BookingType = booking.BookingType,
                 Date = booking.Date,
+                Status = booking.Status,
                 Comment = booking.Comment,
                 Vehicles = _context.Vehicle.Where(v => v.CustomerId == booking.CustomerId).Select(v => new SelectListItem
                 {
@@ -166,7 +217,7 @@ namespace GarageManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,CustomerId,VehicleId,MechanicId,BookingType,Date,Comment")] RosteringBookingViewModel rosteringBookingViewModel)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,CustomerId,VehicleId,MechanicId,BookingType,Date,Status,Comment")] RosteringBookingViewModel rosteringBookingViewModel)
         {
             if (id != rosteringBookingViewModel.Id)
             {
@@ -185,6 +236,7 @@ namespace GarageManagementSystem.Controllers
                         MechanicId = rosteringBookingViewModel.MechanicId,
                         BookingType = rosteringBookingViewModel.BookingType,
                         Date = rosteringBookingViewModel.Date,
+                        Status = rosteringBookingViewModel.Status,
                         Comment = rosteringBookingViewModel.Comment,
                     };
                     _context.Update(booking);

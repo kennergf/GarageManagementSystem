@@ -1,14 +1,11 @@
 @model IEnumerable<GarageManagementSystem.ViewModels.RosteringBookingViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Print Schedule";
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <hr />
 <div class="row">
     <div class="col-md-12">
@@ -21,14 +18,10 @@
                 </div>
                 <div class="form-group col-md-5">
                     <label class="control-label">Final Date</label>
-                    <input class="form-control" name="FinalDate" type="datetime" value="@ViewBag.FinalDate"
-                        asp-format="{0:yyyy-MM-ddTHH:mm}">
+                    <input class="form-control" name="FinalDate" type="datetime" value="@ViewBag.FinalDate" asp-format="{0:yyyy-MM-ddTHH:mm}">
                 </div>
                 <div class="form-group col-md-2">
-                    <input type="submit" value="Search" class="btn btn-primary" />
-                    <input type="button" value="Print" class="btn btn-primary"
-                        onclick="window.location.href = '/Management/PrintSchedule?initialdate=@ViewBag.InitialDate.ToString("yyyy-MM-ddTHH:mm")&finaldate=@ViewBag.FinalDate.ToString("yyyy-MM-ddTHH:mm")'" />
-                    <a asp-action="PrintSchedule" asp-route-initialdate="@ViewBag.InitialDate.ToString("yyyy-MM-ddTHH:mm")" asp-route-finaldate="@ViewBag.FinalDate.ToString("yyyy-MM-ddTHH:mm")">Print</a>
+                    <input type="button" value="Print" class="btn btn-primary" onclick="window.print();" />
                 </div>
             </div>
         </form>
@@ -59,7 +52,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.MechanicName)
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -86,11 +78,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.MechanicName)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
         }

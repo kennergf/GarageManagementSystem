@@ -25,6 +25,8 @@ namespace GarageManagementSystem.ViewModels
         [Display(Name = "Date of Booking")]
         public DateTime Date { get; set; }
 
+        public Status Status { get; set; }
+
         public string Comment { get; set; }
 
         public List<SelectListItem> Vehicles { get; set; }
