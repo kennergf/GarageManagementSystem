@@ -34,8 +34,41 @@ namespace GarageManagementSystem.Models
         [Required, Display(Name = "Date of Booking")]
         public DateTime Date { get; set; }
 
-        public Status Status { get; set; }
+        public Status Status { get; private set; }
 
         public string Comment { get; set; }
+
+        public bool SetStatus(Status status)
+        {
+            switch (status)
+            {
+                case Status.Booked:
+                    return false;
+                case Status.InService:
+                    if (Status == Status.Booked)
+                    {
+                        Status = status;
+                        return true;
+                    }
+                    return false;
+                case Status.FixedCompleted:
+                case Status.UnrepairableScrapped:
+                    if (Status == Status.InService)
+                    {
+                        Status = status;
+                        return true;
+                    }
+                    return false;
+                case Status.Collected:
+                    if (Status == Status.FixedCompleted || Status == Status.UnrepairableScrapped)
+                    {
+                        this.Status = status;
+                        return true;
+                    }
+                    return false;
+                default:
+                    return false;
+            }
+        }
     }
 }

@@ -9,6 +9,7 @@ using GarageManagementSystem.Data;
 using GarageManagementSystem.Models;
 using GarageManagementSystem.ViewModels;
 using GarageManagementSystem.Services;
+using GarageManagementSystem.Enums;
 
 namespace GarageManagementSystem.Controllers
 {
@@ -72,6 +73,7 @@ namespace GarageManagementSystem.Controllers
             return View(rosterings);
         }
 
+        // GET: PrintSchedule
         public async Task<IActionResult> PrintSchedule(DateTime InitialDate, DateTime FinalDate)
         {
             var bookings = await _context.Booking.Include(b => b.Customer).Include(b => b.Vehicle).ToListAsync();
@@ -232,9 +234,9 @@ namespace GarageManagementSystem.Controllers
                     booking.MechanicId = rosteringBookingViewModel.MechanicId;
                     booking.BookingType = rosteringBookingViewModel.BookingType;
                     booking.Date = rosteringBookingViewModel.Date;
-                    booking.Status = rosteringBookingViewModel.Status;
+                    //booking.Status = rosteringBookingViewModel.Status;
                     booking.Comment = rosteringBookingViewModel.Comment;
-                    
+
                     _context.Update(booking);
                     await _context.SaveChangesAsync();
                 }
@@ -254,6 +256,18 @@ namespace GarageManagementSystem.Controllers
             //ViewData["CustomerId"] = new SelectList(_context.Users, "Id", "UserName", User.Identity.Name);
             // ViewData["VehicleId"] = new SelectList(_context.Vehicle, "Id", "Id", booking.VehicleId);
             return View(rosteringBookingViewModel);
+        }
+
+        public async Task<IActionResult> ChangeStatus(string id, Status status)
+        {
+            var booking = await _context.Booking.FindAsync(id);
+            if (!booking.SetStatus(status))
+            {
+                throw new System.Exception();
+            }
+            _context.Update(booking);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Management/Delete/5
