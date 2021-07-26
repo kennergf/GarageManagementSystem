@@ -45,7 +45,7 @@ namespace GarageManagementSystem.Models
                 case Status.Booked:
                     return false;
                 case Status.InService:
-                    if (Status == Status.Booked)
+                    if (Status == Status.Booked && !string.IsNullOrWhiteSpace(MechanicId))
                     {
                         Status = status;
                         return true;

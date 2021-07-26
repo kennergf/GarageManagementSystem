@@ -263,7 +263,7 @@ namespace GarageManagementSystem.Controllers
             var booking = await _context.Booking.FindAsync(id);
             if (!booking.SetStatus(status))
             {
-                throw new System.Exception();
+                throw new System.Exception("Status not updated! Check the actual status and Mechanic allocated");
             }
             _context.Update(booking);
             await _context.SaveChangesAsync();

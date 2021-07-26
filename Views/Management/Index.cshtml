@@ -89,16 +89,18 @@
                     @Html.DisplayFor(modelItem => item.MechanicName)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                     @if(item.Status == Status.Booked){
-                         | <a asp-action="ChangeStatus" asp-route-id="@item.Id" asp-route-status="@Status.InService">In Service</a>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    } |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                    @if(item.Status == Status.Booked){
+                        <a asp-action="ChangeStatus" asp-route-id="@item.Id" asp-route-status="@Status.InService">In Service</a>
                     }else if(item.Status == Status.InService){
-                         | <a asp-action="ChangeStatus" asp-route-id="@item.Id" asp-route-status="@Status.FixedCompleted">Fixed Completed</a> | 
+                        <a asp-action="ChangeStatus" asp-route-id="@item.Id" asp-route-status="@Status.FixedCompleted">Fixed Completed</a>
                         <a asp-action="ChangeStatus" asp-route-id="@item.Id" asp-route-status="@Status.UnrepairableScrapped">Unrepairable/Scrapped</a>
                     }else if(item.Status == Status.FixedCompleted || item.Status == Status.UnrepairableScrapped){
-                         | <a asp-action="ChangeStatus" asp-route-id="@item.Id" asp-route-status="@Status.Collected">Collected</a>
+                        <a asp-action="ChangeStatus" asp-route-id="@item.Id" asp-route-status="@Status.Collected">Collected</a>
                     }
                 </td>
             </tr>
