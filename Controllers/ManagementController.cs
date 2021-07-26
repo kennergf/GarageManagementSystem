@@ -228,17 +228,13 @@ namespace GarageManagementSystem.Controllers
             {
                 try
                 {
-                    var booking = new Booking
-                    {
-                        Id = rosteringBookingViewModel.Id,
-                        CustomerId = rosteringBookingViewModel.CustomerId,
-                        VehicleId = rosteringBookingViewModel.VehicleId,
-                        MechanicId = rosteringBookingViewModel.MechanicId,
-                        BookingType = rosteringBookingViewModel.BookingType,
-                        Date = rosteringBookingViewModel.Date,
-                        Status = rosteringBookingViewModel.Status,
-                        Comment = rosteringBookingViewModel.Comment,
-                    };
+                    var booking = await _context.Booking.FindAsync(rosteringBookingViewModel.Id);
+                    booking.MechanicId = rosteringBookingViewModel.MechanicId;
+                    booking.BookingType = rosteringBookingViewModel.BookingType;
+                    booking.Date = rosteringBookingViewModel.Date;
+                    booking.Status = rosteringBookingViewModel.Status;
+                    booking.Comment = rosteringBookingViewModel.Comment;
+                    
                     _context.Update(booking);
                     await _context.SaveChangesAsync();
                 }
