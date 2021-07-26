@@ -140,7 +140,8 @@ namespace GarageManagementSystem.Controllers
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var service = await _context.Service.FindAsync(id);
-            _context.Service.Remove(service);
+            service.MarkAsDeleted();
+            _context.Update(service);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
