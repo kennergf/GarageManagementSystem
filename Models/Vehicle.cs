@@ -24,6 +24,10 @@ namespace GarageManagementSystem.Models
         [ForeignKey("ApplicationUser")]
         public string CustomerId { get; set; }
 
+        public Make Make { get; set; }
+
+        public string Model { get; set; }
+
         public bool IsDeleted()
         {
             return Deleted;

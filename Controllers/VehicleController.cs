@@ -58,7 +58,7 @@ namespace GarageManagementSystem.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Licence,Type,EngineType")] Vehicle vehicle)
+        public async Task<IActionResult> Create([Bind("Id,Licence,Type,EngineType,Make,Model")] Vehicle vehicle)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +92,7 @@ namespace GarageManagementSystem.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Licence,Type,EngineType,ApplicationUserId")] Vehicle vehicle)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Licence,Type,EngineType,CustomerId,Make,Model")] Vehicle vehicle)
         {
             if (id != vehicle.Id)
             {

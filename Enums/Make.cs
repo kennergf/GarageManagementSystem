@@ -2,6 +2,7 @@ namespace GarageManagementSystem.Enums
 {
     public enum Make
     {
+        Other,
         Acura,
         Audi,
         BMW,
@@ -32,6 +33,5 @@ namespace GarageManagementSystem.Enums
         Vauxhall,
         Volvo,
         VolksWagen,
-        Other,
     }
 }
