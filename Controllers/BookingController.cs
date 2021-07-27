@@ -225,38 +225,5 @@ namespace GarageManagementSystem.Controllers
             return _context.Booking.Any(e => e.Id == id);
         }
     
-        public async Task<IActionResult> Rostering()
-        {
-            var bookings = await _context.Booking.ToListAsync();
-            bookings.ForEach(b => b.Vehicle = _context.Vehicle.First(v => v.Id == b.VehicleId));
-
-            var rosterings = new List<RosteringBookingViewModel>();
-            bookings.ForEach(booking => rosterings.Add(new RosteringBookingViewModel
-            {
-                Id = booking.Id,
-                CustomerId = booking.CustomerId,
-                VehicleId = booking.VehicleId,
-                BookingType = booking.BookingType,
-                Date = booking.Date,
-                Comment = booking.Comment,
-                Vehicles = _context.Vehicle.Where(v => v.CustomerId == booking.CustomerId).Select(v => new SelectListItem
-                {
-                    Value = v.Id,
-                    Text = v.Licence,
-                }).ToList(),
-                AvailableDates = _bookingProvider.GetAvailabelDates().Select(d => new SelectListItem
-                {
-                    Value = d.ToString(),
-                    Text = d.ToString(),
-                }).ToList(),
-                Mechanics = _context.Users.ToList().Select(v => new SelectListItem
-                {
-                    Value = v.Id,
-                    Text = v.Name,
-                }).ToList(),
-            }));
-
-            return View(rosterings.AsQueryable());
-        }
     }
 }
