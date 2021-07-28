@@ -28,5 +28,6 @@ namespace GarageManagementSystem.Data
         public DbSet<GarageManagementSystem.Models.Booking> Booking { get; set; }
         public DbSet<GarageManagementSystem.Models.Part> Part { get; set; }
         public DbSet<GarageManagementSystem.Models.Service> Service { get; set; }
+        public DbSet<GarageManagementSystem.Models.Invoice> Invoice { get; set; }
     }
 }

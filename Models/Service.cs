@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,12 +10,16 @@ namespace GarageManagementSystem.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
         public string Name { get; set; }
-        
+
         // Decimal(18.2)
         [RegularExpression(@"^(0|-?\d{0,18}(\.\d{0,2})?)$", ErrorMessage = "Invalid value!")]
         public decimal Value { get; set; }
 
         public bool Deleted { get; private set; }
+
+        //public virtual ICollection<Invoice> Invoices { get; set; }
+
+        //public ICollection<InvoiceService> InvoiceServices { get; set; }
 
         public void MarkAsDeleted()
         {
