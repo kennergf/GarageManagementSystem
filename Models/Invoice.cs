@@ -26,6 +26,6 @@ namespace GarageManagementSystem.Models
 
         public string Comment { get; set; }
 
-        //public ICollection<InvoiceService> InvoiceServices { get; set; }
+        public ICollection<InvoiceService> InvoiceServices { get; set; }
     }
 }

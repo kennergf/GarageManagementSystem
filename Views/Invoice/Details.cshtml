@@ -11,12 +11,6 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Booking)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Booking.Id)
-        </dd>
-        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.CustomerName)
         </dt>
         <dd class = "col-sm-10">
@@ -47,6 +41,75 @@
             @Html.DisplayFor(model => model.Comment)
         </dd>
     </dl>
+    <div class="row">
+        <h4 class="col-md-2">Services</h4>
+        <div clas=col-md-2">
+            <a asp-action="AddService" asp-route-id="@Model.Id">Add Service</a>
+        </div>
+    </div>
+    @* REF https://getbootstrap.com/docs/4.0/content/tables/ *@
+    <table class="table">
+        @if (Model.InvoiceServices != null)
+        {
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Value</th>
+                    <th scope="col">Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var service in Model.InvoiceServices)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(model => service.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => service.Value)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => service.Quantity)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        }
+    </table>
+    <div class="row">
+    <h4 class="col-md-2">Parts</h4>
+    <div class="col-md-2">
+        <a asp-action="Index">Add Part</a>
+    </div>
+    </div>
+    <table class="table">
+        @if (Model.InvoiceServices != null)
+        {
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Value</th>
+                    <th scope="col">Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var service in Model.InvoiceServices)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(model => service.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => service.Value)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => service.Quantity)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        }
+    </table>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |

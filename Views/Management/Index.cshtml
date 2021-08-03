@@ -13,6 +13,7 @@
 <hr />
 <div class="row">
     <div class="col-md-12">
+        @* REF https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/introduction/adding-search *@
         <form asp-action="Index">
             <div class="form-inline">
                 <div class="form-group col-md-5">
@@ -95,9 +96,10 @@
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
                     @if(item.Status == Status.Booked){
-                        <a asp-action="ChangeStatus" asp-route-id="@item.Id" asp-route-status="@Status.InService">In Service</a>
+                        <a asp-action="ChangeStatus" asp-route-id="@item.Id" asp-route-status="@Status.InService">Start Servicing</a>
                     }else if(item.Status == Status.InService){
-                        <a asp-action="ChangeStatus" asp-route-id="@item.Id" asp-route-status="@Status.FixedCompleted">Fixed Completed</a>
+                        <a asp-controller="Invoice" asp-action="Create" asp-route-bookingId="@item.Id">Finish Service</a>
+                        @* <a asp-action="ChangeStatus" asp-route-id="@item.Id" asp-route-status="@Status.FixedCompleted">Finish Service</a> *@
                         <a asp-action="ChangeStatus" asp-route-id="@item.Id" asp-route-status="@Status.UnrepairableScrapped">Unrepairable/Scrapped</a>
                     }else if(item.Status == Status.FixedCompleted || item.Status == Status.UnrepairableScrapped){
                         <a asp-action="ChangeStatus" asp-route-id="@item.Id" asp-route-status="@Status.Collected">Collected</a>

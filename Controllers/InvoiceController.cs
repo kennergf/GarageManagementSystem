@@ -37,6 +37,7 @@ namespace GarageManagementSystem.Controllers
 
             var invoice = await _context.Invoice
                 .Include(i => i.Booking)
+                .Include(i => i.InvoiceServices)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (invoice == null)
             {
@@ -100,7 +101,7 @@ namespace GarageManagementSystem.Controllers
             {
                 var invoice = new Invoice
                 {
-                    Id = invoiceViewModel.Id,
+                    //Id = invoiceViewModel.Id,
                     BookingId = invoiceViewModel.BookingId,
                     CustomerName = invoiceViewModel.CustomerName,
                     Phone = invoiceViewModel.Phone,
@@ -110,9 +111,34 @@ namespace GarageManagementSystem.Controllers
                     //Services = _context.Service.Where(e => invoiceViewModel.Services.Contains(e.Id)).ToList(),
                 };
 
-                _context.Add(invoice);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    var booking = _context.Booking.Find(invoiceViewModel.BookingId);
+                    // TODO Validate
+
+                    if(!booking.SetStatus(Enums.Status.FixedCompleted))
+                    {
+                        return View(invoiceViewModel);
+                    }
+                    _context.Add(invoice);
+                    // Set Id to return to Details
+                    invoiceViewModel.Id = invoice.Id;
+                    _context.Update(booking);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    // TODO Booking Exist?
+                    if (!InvoiceExists(invoiceViewModel.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Details), new { id = invoiceViewModel.Id });
             }
 
             return View(invoiceViewModel);
@@ -224,6 +250,45 @@ namespace GarageManagementSystem.Controllers
             _context.Invoice.Remove(invoice);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult AddService(string id)
+        {
+            if (id == null || !InvoiceExists(id))
+            {
+                return NotFound();
+            }
+
+            var invoiceService = new InvoiceServiceViewModel
+            {
+                InvoiceId = id,
+            };
+
+            ViewData["Id"] = id;
+            ViewData["Service"] = _context.Service.OrderBy(s => s.Name).ToList().Select(p => new SelectListItem
+            {
+                Value = p.Id,
+                Text = p.Name + " - $" + p.Value,
+            }).ToList();
+
+            return View(invoiceService);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddService(string id, [Bind("Id,InvoiceId,ServiceId,Quantity")] InvoiceServiceViewModel invoiceServiceViewModel)
+        {
+            var service = _context.Service.Find(invoiceServiceViewModel.ServiceId);
+            var invoiceService = new InvoiceService
+            {
+                InvoiceId = invoiceServiceViewModel.InvoiceId,
+                Name = service.Name,
+                Value = service.Value,
+                Quantity = invoiceServiceViewModel.Quantity,
+            };
+            await _context.AddAsync(invoiceService);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Details), new { id = id });
         }
 
         private bool InvoiceExists(string id)
