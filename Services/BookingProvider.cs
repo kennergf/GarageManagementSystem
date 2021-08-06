@@ -37,9 +37,11 @@ namespace GarageManagementSystem.Services
         public List<DateTime> GetAvailabelDates()
         {
             var DatesAvailable = new List<DateTime>();
-            var today = DateTime.Today;
-            // Start at the time the garage open
-            var targetDate = today.AddHours(TIMEGARAGEOPEN - today.Hour);
+            // Start from next full hour
+            var today = DateTime.Now;
+            today = today.AddMinutes(60 - today.Minute).AddSeconds(-today.Second);
+            // Start NOW if garage is open, OR at the TIME the GARAGE OPEN
+            var targetDate = today.Hour < TIMEGARAGEOPEN ? today.AddHours(TIMEGARAGEOPEN - today.Hour) : today;
             // Number of days starting from today that will be available to the user
             double numberOfDaysAvailable = today.DayOfWeek >= OPENNEXTWEEK ? ((double)DAYGARAGECLOSED) + 7 + (7 - (double)today.DayOfWeek) : (7 - (double)today.DayOfWeek);
             // Get all bookings from TODAY until the next day bookings will be available for the user
@@ -51,7 +53,7 @@ namespace GarageManagementSystem.Services
                 if (targetDate.DayOfWeek != DAYGARAGECLOSED)
                 {
                     // Add Booking spot with one hour between then
-                    for (int i = 0; i < WORKSHIFTDURATION; i++)
+                    for (int i = targetDate.Hour; i < TIMEGARAGEOPEN + WORKSHIFTDURATION; i++)
                     {
                         // Is the targetDate is already booked
                         booking = bookings.Where(b => b.Date == targetDate).FirstOrDefault();
