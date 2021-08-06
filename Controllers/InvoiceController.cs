@@ -116,7 +116,7 @@ namespace GarageManagementSystem.Controllers
                     var booking = _context.Booking.Find(invoiceViewModel.BookingId);
                     // TODO Validate
 
-                    if(!booking.SetStatus(Enums.Status.FixedCompleted))
+                    if (!booking.SetStatus(Enums.Status.FixedCompleted))
                     {
                         return View(invoiceViewModel);
                     }
@@ -278,17 +278,22 @@ namespace GarageManagementSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddService(string id, [Bind("Id,InvoiceId,ServiceId,Quantity")] InvoiceServiceViewModel invoiceServiceViewModel)
         {
-            var service = _context.Service.Find(invoiceServiceViewModel.ServiceId);
-            var invoiceService = new InvoiceService
+            if (ModelState.IsValid)
             {
-                InvoiceId = invoiceServiceViewModel.InvoiceId,
-                Name = service.Name,
-                Value = service.Value,
-                Quantity = invoiceServiceViewModel.Quantity,
-            };
-            await _context.AddAsync(invoiceService);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Details), new { id = id });
+                var service = _context.Service.Find(invoiceServiceViewModel.ServiceId);
+                var invoiceService = new InvoiceService
+                {
+                    InvoiceId = invoiceServiceViewModel.InvoiceId,
+                    Name = service.Name,
+                    Value = service.Value,
+                    Quantity = invoiceServiceViewModel.Quantity,
+                };
+                await _context.AddAsync(invoiceService);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Details), new { id = id });
+            }
+
+            return View(invoiceServiceViewModel);
         }
 
         private bool InvoiceExists(string id)

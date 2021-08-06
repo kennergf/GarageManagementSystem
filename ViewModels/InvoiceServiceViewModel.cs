@@ -7,8 +7,10 @@ namespace GarageManagementSystem.ViewModels
     {
         public string Id { get; set; }
 
+        [Required]
         public string InvoiceId { get; set; }
 
+        [Required]
         [Display(Name = "Service")]
         public string ServiceId { get; set; }
 
