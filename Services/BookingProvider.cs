@@ -8,7 +8,7 @@ namespace GarageManagementSystem.Services
     public class BookingProvider : IBookingProvider
     {
         private readonly ApplicationDbContext _context;
-        
+
         /// <summary>
         /// Day that the booking for next week is made available
         /// </summary>
@@ -42,18 +42,30 @@ namespace GarageManagementSystem.Services
             var targetDate = today.AddHours(TIMEGARAGEOPEN - today.Hour);
             // Number of days starting from today that will be available to the user
             double numberOfDaysAvailable = today.DayOfWeek >= OPENNEXTWEEK ? ((double)DAYGARAGECLOSED) + 7 + (7 - (double)today.DayOfWeek) : (7 - (double)today.DayOfWeek);
-            List<DateTime> booked = _context.Booking.Where(b => b.Date >= today && b.Date <= today.AddDays(numberOfDaysAvailable + 1)).Select(b => b.Date).ToList();
+            // Get all bookings from TODAY until the next day bookings will be available for the user
+            var bookings = _context.Booking.Where(b => b.Date >= today && b.Date <= today.AddDays(numberOfDaysAvailable + 1)).ToList();
+            Models.Booking booking = null;
             while (targetDate < today.AddDays(numberOfDaysAvailable))
             {
+                // If Garage is open on that day of the week
                 if (targetDate.DayOfWeek != DAYGARAGECLOSED)
                 {
                     // Add Booking spot with one hour between then
                     for (int i = 0; i < WORKSHIFTDURATION; i++)
                     {
-                        if(!booked.Any(d => d == targetDate))
+                        // Is the targetDate is already booked
+                        booking = bookings.Where(b => b.Date == targetDate).FirstOrDefault();
+                        if (booking == null)
                         {
+                            // If targetDate is not booked, make it available
                             DatesAvailable.Add(targetDate);
                         }
+                        // If Booking is a Major Repair reserve double of the time
+                        else if (booking.BookingType == Enums.BookingType.MajorRepair)
+                        {
+                            targetDate = targetDate.AddHours(1);
+                        }
+                        // Check next hour if still on the work shift
                         targetDate = targetDate.AddHours(1);
                     }
                 }
