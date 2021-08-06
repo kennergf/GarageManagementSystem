@@ -41,15 +41,15 @@
             @Html.DisplayFor(model => model.Comment)
         </dd>
     </dl>
+
     <div class="row">
         <h4 class="col-md-2">Services</h4>
-        <div clas=col-md-2">
+        <div class="col-md-2">
             <a asp-action="AddService" asp-route-id="@Model.Id">Add Service</a>
         </div>
     </div>
-    @* REF https://getbootstrap.com/docs/4.0/content/tables/ *@
     <table class="table">
-        @if (Model.InvoiceServices != null)
+        @if (Model.InvoiceServices != null && Model.InvoiceServices.Any())
         {
             <thead>
                 <tr>
@@ -74,16 +74,21 @@
                     </tr>
                 }
             </tbody>
+        }else
+        {
+            <thead>
+                <tr><th>No Service</th><tr>
+            </thead>
         }
     </table>
     <div class="row">
-    <h4 class="col-md-2">Parts</h4>
-    <div class="col-md-2">
-        <a asp-action="Index">Add Part</a>
-    </div>
+        <h4 class="col-md-2">Parts</h4>
+        <div class="col-md-2">
+            <a asp-action="Index">Add Part</a>
+        </div>
     </div>
     <table class="table">
-        @if (Model.InvoiceServices != null)
+        @if (Model.InvoiceServices != null && Model.InvoiceServices.Any())
         {
             <thead>
                 <tr>
@@ -108,6 +113,11 @@
                     </tr>
                 }
             </tbody>
+        }else
+        {
+            <thead>
+                <tr><th>No Service</th><tr>
+            </thead>
         }
     </table>
 </div>
