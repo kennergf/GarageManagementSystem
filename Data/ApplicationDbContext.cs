@@ -1,5 +1,4 @@
 using GarageManagementSystem.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +14,13 @@ namespace GarageManagementSystem.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            Seed.Users(builder);
+            Seed.Roles(builder);
+            Seed.UserRoles(builder);
+
+            Seed.Services(builder);
+            Seed.Parts(builder);
 
             builder.Entity<Part>()
                 .Property(p => p.Value)

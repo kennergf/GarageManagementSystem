@@ -45,7 +45,6 @@ namespace GarageManagementSystem.Controllers
                 Id = booking.Id,
                 CustomerName = booking.Customer.Name,
                 VehicleLicence = booking.Vehicle.Licence,
-                MechanicName = booking.Mechanic?.Name,
                 BookingType = booking.BookingType,
                 Date = booking.Date,
                 Status = booking.Status,
@@ -65,6 +64,7 @@ namespace GarageManagementSystem.Controllers
                     Value = v.Id,
                     Text = v.Name,
                 }).ToList(),
+                MechanicName = booking.Mechanic?.Name,
             }));
 
             // REF https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/introduction/adding-search

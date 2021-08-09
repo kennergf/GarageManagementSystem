@@ -269,7 +269,10 @@ namespace GarageManagementSystem.Controllers
             {
                 Value = p.Id,
                 Text = p.Name + " - $" + p.Value,
+                Group = new SelectListGroup() {Name = "Service"},
             }).ToList();
+
+            ViewBag.OptService= new SelectList(_context.Service.OrderBy(s => s.Name).ToList(), "Id", "Name", null,"Name");
 
             return View(invoiceService);
         }
