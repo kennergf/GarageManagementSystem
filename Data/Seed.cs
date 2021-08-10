@@ -123,6 +123,8 @@ namespace GarageManagementSystem.Data
 
         #region Service
 
+        // REF https://stackoverflow.com/questions/2344098/c-sharp-how-to-create-a-guid-value#2344107
+        // REF https://docs.microsoft.com/en-us/dotnet/api/system.guid.tostring?redirectedfrom=MSDN&view=net-5.0#System_Guid_ToString_System_String_
         internal static void Services(ModelBuilder builder)
         {
             var services = new List<Service>();
