@@ -15,20 +15,20 @@ namespace GarageManagementSystem.Data
         {
             base.OnModelCreating(builder);
 
-            Seed.Users(builder);
-            Seed.Roles(builder);
-            Seed.UserRoles(builder);
+            // Seed.Users(builder);
+            // Seed.Roles(builder);
+            // Seed.UserRoles(builder);
 
-            Seed.Services(builder);
-            Seed.Parts(builder);
+            // Seed.Services(builder);
+            // Seed.Parts(builder);
 
-            builder.Entity<Part>()
-                .Property(p => p.Value)
-                .HasPrecision(18, 2);
+            // builder.Entity<Part>()
+            //     .Property(p => p.Value)
+            //     .HasPrecision(18, 2);
 
-            builder.Entity<Service>()
-                .Property(p => p.Value)
-                .HasPrecision(18, 2);
+            // builder.Entity<Service>()
+            //     .Property(p => p.Value)
+            //     .HasPrecision(18, 2);
 
             // builder.Entity<InvoiceService>()
             //     .Property(p => p.Value)

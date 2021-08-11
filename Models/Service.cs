@@ -13,9 +13,13 @@ namespace GarageManagementSystem.Models
 
         // Decimal(18.2)
         [RegularExpression(@"^(0|-?\d{0,18}(\.\d{0,2})?)$", ErrorMessage = "Invalid value!")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Value { get; set; }
 
         public bool Deleted { get; private set; }
+
+        [StringLength(255, ErrorMessage = "The {0} can not exceed {1} characteres!")]
+        public string Group { get; set; }
 
         public void MarkAsDeleted()
         {
