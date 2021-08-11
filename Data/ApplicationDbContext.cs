@@ -15,12 +15,12 @@ namespace GarageManagementSystem.Data
         {
             base.OnModelCreating(builder);
 
-            Seed.Users(builder);
-            Seed.Roles(builder);
-            Seed.UserRoles(builder);
+            // Seed.Users(builder);
+            // Seed.Roles(builder);
+            // Seed.UserRoles(builder);
 
-            Seed.Services(builder);
-            Seed.Parts(builder);
+            // Seed.Services(builder);
+            // Seed.Parts(builder);
 
             // builder.Entity<Part>()
             //     .Property(p => p.Value)
@@ -41,6 +41,6 @@ namespace GarageManagementSystem.Data
         public DbSet<GarageManagementSystem.Models.Service> Service { get; set; }
         public DbSet<GarageManagementSystem.Models.Invoice> Invoice { get; set; }
         public DbSet<GarageManagementSystem.Models.InvoiceService> InvoiceService { get; set; }
-
+        public DbSet<GarageManagementSystem.Models.InvoicePart> InvoicePart { get; set; }
     }
 }

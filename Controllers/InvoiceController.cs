@@ -299,6 +299,53 @@ namespace GarageManagementSystem.Controllers
             return View(invoiceServiceViewModel);
         }
 
+        public IActionResult AddPart(string id)
+        {
+            if (id == null || !InvoiceExists(id))
+            {
+                return NotFound();
+            }
+
+            var invoicePart = new InvoicePartViewModel
+            {
+                InvoiceId = id,
+            };
+
+            ViewData["Id"] = id;
+            ViewData["Part"] = _context.Part.OrderBy(s => s.Name).ToList().Select(p => new SelectListItem
+            {
+                Value = p.Id,
+                Text = p.Name + " - $" + p.Value,
+                Group = new SelectListGroup() {Name = "Part"},
+            }).ToList();
+
+            ViewBag.OptPart= new SelectList(_context.Part.OrderBy(s => s.Name).ToList(), "Id", "Name", null,"Group");
+
+            return View(invoicePart);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddPart(string id, [Bind("Id,InvoiceId,PartId,Quantity")] InvoicePartViewModel invoicePartViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var service = _context.Service.Find(invoicePartViewModel.PartId);
+                var invoicePart = new InvoicePart
+                {
+                    InvoiceId = invoicePartViewModel.InvoiceId,
+                    Name = service.Name,
+                    Value = service.Value,
+                    Quantity = invoicePartViewModel.Quantity,
+                };
+                await _context.AddAsync(invoicePart);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Details), new { id = id });
+            }
+
+            return View(invoicePartViewModel);
+        }
+
         private bool InvoiceExists(string id)
         {
             return _context.Invoice.Any(e => e.Id == id);

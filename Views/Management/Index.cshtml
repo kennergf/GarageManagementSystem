@@ -94,7 +94,7 @@
                     } |
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
-                    @if(item.Status == Status.Booked){
+                    @if(item.Status == Status.Booked && item.MechanicName != null){
                         <a asp-action="ChangeStatus" asp-route-id="@item.Id" asp-route-status="@Status.InService">Start Servicing</a>
                     }else if(item.Status == Status.InService){
                         <a asp-controller="Invoice" asp-action="Create" asp-route-bookingId="@item.Id">Finish Service</a>
