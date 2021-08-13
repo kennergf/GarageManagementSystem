@@ -10,9 +10,11 @@ using GarageManagementSystem.Models;
 using GarageManagementSystem.ViewModels;
 using GarageManagementSystem.Services;
 using GarageManagementSystem.Enums;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GarageManagementSystem.Controllers
 {
+    [Authorize(Roles="Administrator,Mechanic")]
     public class ManagementController : Controller
     {
         private readonly ApplicationDbContext _context;

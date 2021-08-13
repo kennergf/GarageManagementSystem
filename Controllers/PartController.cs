@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GarageManagementSystem.Data;
 using GarageManagementSystem.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GarageManagementSystem.Controllers
 {
+    [Authorize(Roles="Administrator,Mechanic")]
     public class PartController : Controller
     {
         private readonly ApplicationDbContext _context;

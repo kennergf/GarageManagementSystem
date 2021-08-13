@@ -9,9 +9,11 @@ using GarageManagementSystem.Data;
 using GarageManagementSystem.Models;
 using GarageManagementSystem.ViewModels;
 using GarageManagementSystem.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GarageManagementSystem.Controllers
 {
+    [Authorize(Roles="Customer")]
     public class BookingController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -26,7 +28,10 @@ namespace GarageManagementSystem.Controllers
         // GET: Booking
         public async Task<IActionResult> Index()
         {
-            var bookings = await _context.Booking.Include(b => b.Customer).Include(b => b.Vehicle).ToListAsync();
+            // Recover data of logged user from Database
+            var user = _context.Users.Where(u => u.UserName == User.Identity.Name).First();
+            var bookings = await _context.Booking.Include(b => b.Customer).Include(b => b.Vehicle)
+                .Where(b=> b.CustomerId == user.Id).ToListAsync();
             return View(bookings);
         }
 

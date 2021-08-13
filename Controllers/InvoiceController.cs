@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using GarageManagementSystem.Data;
 using GarageManagementSystem.Models;
 using GarageManagementSystem.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GarageManagementSystem.Controllers
 {
+    [Authorize(Roles="Administrator,Mechanic")]
     public class InvoiceController : Controller
     {
         private readonly ApplicationDbContext _context;

@@ -6,9 +6,11 @@ using GarageManagementSystem.Data;
 using GarageManagementSystem.Models;
 using GarageManagementSystem.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GarageManagementSystem.Controllers
 {
+    [Authorize(Roles="Customer")]
     public class VehicleController : Controller
     {
         private readonly ApplicationDbContext _context;
