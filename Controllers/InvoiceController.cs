@@ -265,6 +265,7 @@ namespace GarageManagementSystem.Controllers
             };
 
             ViewData["Id"] = id;
+            // REF https://www.aspsnippets.com/Articles/Implement-Grouped-DropDownList-using-OptGroup-in-ASPNet-MVC.aspx
             ViewData["Service"] = _context.Service.OrderBy(s => s.Name).ToList().Select(p => new SelectListItem
             {
                 Value = p.Id,

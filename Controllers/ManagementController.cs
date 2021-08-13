@@ -207,6 +207,7 @@ namespace GarageManagementSystem.Controllers
                     Value = d.ToString(),
                     Text = d.ToString(),
                 }).ToList(),
+                // REF https://stackoverflow.com/questions/22907820/lambda-expression-join-multiple-tables-with-select-and-where-clause
                 // Make a Join between the tables Users, UserRoles and Roles to get only Users With the Role MECHANIC
                 Mechanics = _context.Users
                 .Join(_context.UserRoles, u => u.Id, ur => ur.UserId, (u, ur) => new { u, ur })
