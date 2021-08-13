@@ -183,7 +183,10 @@ namespace GarageManagementSystem.Controllers
             }
             ViewData["CustomerId"] = new SelectList(_context.Users, "Id", "Name", booking.CustomerId);
             ViewData["VehicleId"] = new SelectList(_context.Vehicle, "Id", "Licence", booking.VehicleId);
-            ViewData["MechanicId"] = new SelectList(_context.Users, "Id", "Name", booking.MechanicId);
+            ViewData["MechanicId"] = new SelectList(_context.Users
+                .Join(_context.UserRoles, u => u.Id, ur => ur.UserId, (u, ur) => new { u, ur })
+                .Join(_context.Roles, r => r.ur.RoleId, ro => ro.Id, (r, ro) => new { r, ro })
+            .Where(us => us.ro.NormalizedName == "MECHANIC"), "Id", "Name", booking.MechanicId);
 
             var rosteringBookingViewModel = new RosteringBookingViewModel
             {
@@ -204,10 +207,14 @@ namespace GarageManagementSystem.Controllers
                     Value = d.ToString(),
                     Text = d.ToString(),
                 }).ToList(),
-                Mechanics = _context.Users.ToList().Select(v => new SelectListItem
+                // Make a Join between the tables Users, UserRoles and Roles to get only Users With the Role MECHANIC
+                Mechanics = _context.Users
+                .Join(_context.UserRoles, u => u.Id, ur => ur.UserId, (u, ur) => new { u, ur })
+                .Join(_context.Roles, r => r.ur.RoleId, ro => ro.Id, (r, ro) => new { r, ro })
+                .Where(us => us.ro.NormalizedName == "MECHANIC").ToList().Select(v => new SelectListItem
                 {
-                    Value = v.Id,
-                    Text = v.Name,
+                    Value = v.r.u.Id,
+                    Text = v.r.u.Name,
                 }).ToList(),
             };
 
