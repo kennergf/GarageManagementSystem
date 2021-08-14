@@ -253,7 +253,35 @@ namespace GarageManagementSystem.Controllers
             _context.Invoice.Remove(invoice);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }Invoice
+        }
+
+        public IActionResult AddService(string id)
+        {
+            if (id == null || !InvoiceExists(id))
+            {
+                return NotFound();
+            }
+
+            var invoiceService = new InvoiceServiceViewModel
+            {
+                InvoiceId = id,
+            };
+
+            ViewData["Id"] = id;
+            // REF https://www.aspsnippets.com/Articles/Implement-Grouped-DropDownList-using-OptGroup-in-ASPNet-MVC.aspx
+            ViewData["Service"] = _context.Service.OrderBy(s => s.Name).ToList().Select(p => new SelectListItem
+            {
+                Value = p.Id,
+                Text = p.Name + " - $" + p.Value,
+                Group = new SelectListGroup() {Name = "Service"},
+            }).ToList();
+
+            ViewBag.OptService= new SelectList(_context.Service.OrderBy(s => s.Name).ToList(), "Id", "Name", null,"Group");
+
+            return View(invoiceService);
+        }
+
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddService(string id, [Bind("Id,InvoiceId,ServiceId,Quantity")] InvoiceServiceViewModel invoiceServiceViewModel)
         {
