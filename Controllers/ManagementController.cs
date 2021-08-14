@@ -124,52 +124,6 @@ namespace GarageManagementSystem.Controllers
             return View(rosterings);
         }
 
-        // GET: Management/Details/5
-        public async Task<IActionResult> Details(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var booking = await _context.Booking
-                .Include(b => b.Customer)
-                .Include(b => b.Vehicle)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (booking == null)
-            {
-                return NotFound();
-            }
-
-            return View(booking);
-        }
-
-        // GET: Management/Create
-        public IActionResult Create()
-        {
-            ViewData["CustomerId"] = new SelectList(_context.Users, "Id", "Id");
-            ViewData["VehicleId"] = new SelectList(_context.Vehicle, "Id", "Id");
-            return View();
-        }
-
-        // POST: Management/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CustomerId,VehicleId,BookingType,Date,Comment")] Booking booking)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(booking);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CustomerId"] = new SelectList(_context.Users, "Id", "Id", booking.CustomerId);
-            ViewData["VehicleId"] = new SelectList(_context.Vehicle, "Id", "Id", booking.VehicleId);
-            return View(booking);
-        }
-
         // GET: Management/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
@@ -276,37 +230,6 @@ namespace GarageManagementSystem.Controllers
                 throw new System.Exception("Status not updated! Check the actual status and Mechanic allocated");
             }
             _context.Update(booking);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        // GET: Management/Delete/5
-        public async Task<IActionResult> Delete(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var booking = await _context.Booking
-                .Include(b => b.Customer)
-                .Include(b => b.Vehicle)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (booking == null)
-            {
-                return NotFound();
-            }
-
-            return View(booking);
-        }
-
-        // POST: Management/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            var booking = await _context.Booking.FindAsync(id);
-            _context.Booking.Remove(booking);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

@@ -7,9 +7,6 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <hr />
 <div class="row">
     <div class="col-md-12">
@@ -92,8 +89,6 @@
                     @if(item.Status == Status.Booked){
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                     } |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
                     @if(item.Status == Status.Booked && item.MechanicName != null){
                         <a asp-action="ChangeStatus" asp-route-id="@item.Id" asp-route-status="@Status.InService">Start Servicing</a>
                     }else if(item.Status == Status.InService){
