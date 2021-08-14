@@ -1,0 +1,165 @@
+@model GarageManagementSystem.ViewModels.PrintInvoiceViewModel
+
+@{
+    ViewData["Title"] = "Print Invoice";
+}
+
+<h1>Print Invoice</h1>
+
+<div>
+    <h4>Invoice</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2 col-md-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class="col-sm-10 col-md-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class="col-sm-2 col-md-2">
+            @Html.DisplayNameFor(model => model.CustomerName)
+        </dt>
+        <dd class="col-sm-10 col-md-4">
+            @Html.DisplayFor(model => model.CustomerName)
+        </dd>
+        <dt class="col-sm-2 col-md-2">
+            @Html.DisplayNameFor(model => model.Phone)
+        </dt>
+        <dd class="col-sm-10 col-md-4">
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+        <dt class="col-sm-2 col-md-2">
+            @Html.DisplayNameFor(model => model.Vehicle)
+        </dt>
+        <dd class="col-sm-10 col-md-4">
+            @Html.DisplayFor(model => model.Vehicle)
+        </dd>
+        <dt class="col-sm-2 col-md-2">
+            @Html.DisplayNameFor(model => model.Licence)
+        </dt>
+        <dd class="col-sm-10 col-md-4">
+            @Html.DisplayFor(model => model.Licence)
+        </dd>
+        <dt class="col-sm-2 col-md-2">
+            @Html.DisplayNameFor(model => model.Comment)
+        </dt>
+        <dd class="col-sm-10 col-md-10">
+            @Html.DisplayFor(model => model.Comment)
+        </dd>
+    </dl>
+
+    <div class="row">
+        <h4 class="col-md-2">Services</h4>
+    </div>
+    @* REF https://getbootstrap.com/docs/4.0/content/tables/ *@
+    <table class="table">
+        @if (Model.InvoiceServices != null && Model.InvoiceServices.Any())
+        {
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Value</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var service in Model.InvoiceServices)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(model => service.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => service.Value)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => service.Quantity)
+                        </td>
+                        <td>
+                            @(service.Quantity * service.Value)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td><strong>Total Services: </strong></td>
+                    <td>@Model.TotalServices()</td>
+                </tr>
+            </tfoot>
+        }
+        else
+        {
+            <thead>
+                <tr>
+                    <th>No Service</th>
+                <tr>
+            </thead>
+        }
+    </table>
+    <div class="row">
+        <h4 class="col-md-2">Parts</h4>
+    </div>
+    <table class="table">
+        @if (Model.InvoiceParts != null && Model.InvoiceParts.Any())
+        {
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Value</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var service in Model.InvoiceParts)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(model => service.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => service.Value)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => service.Quantity)
+                        </td>
+                        <td>
+                            @(service.Quantity * service.Value)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td><strong>Total Parts: </strong></td>
+                    <td>@Model.TotalParts()</td>
+                </tr>
+            </tfoot>
+        }
+        else
+        {
+            <thead>
+                <tr>
+                    <th>No Part</th>
+                <tr>
+            </thead>
+        }
+    </table>
+    <hr />
+    <div class="row">
+        <h4 class="col-sm-10 col-md-10 col-lg-10">Total Due</h4>
+        <h4 class="col-sm-2 col-md-2 col-lg-2">@Model.TotalDue()</h4>
+    </div>
+</div>
+
+@{
+    <script type="text/javascript">
+        window.print();
+    </script>
+}

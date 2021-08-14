@@ -40,6 +40,7 @@ namespace GarageManagementSystem.Controllers
             var invoice = await _context.Invoice
                 .Include(i => i.Booking)
                 .Include(i => i.InvoiceServices)
+                .Include(i => i.InvoiceParts)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (invoice == null)
             {
@@ -333,12 +334,12 @@ namespace GarageManagementSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                var service = _context.Service.Find(invoicePartViewModel.PartId);
+                var part = _context.Part.Find(invoicePartViewModel.PartId);
                 var invoicePart = new InvoicePart
                 {
                     InvoiceId = invoicePartViewModel.InvoiceId,
-                    Name = service.Name,
-                    Value = service.Value,
+                    Name = part.Name,
+                    Value = part.Value,
                     Quantity = invoicePartViewModel.Quantity,
                 };
                 await _context.AddAsync(invoicePart);
@@ -347,6 +348,27 @@ namespace GarageManagementSystem.Controllers
             }
 
             return View(invoicePartViewModel);
+        }
+
+        public async Task<IActionResult> PrintInvoice(string id)
+        {
+            var invoice = await _context.Invoice.Include(i => i.InvoiceServices).Include(i => i.InvoiceParts)
+                .FirstOrDefaultAsync(i => i.Id == id);
+
+            var printInvoiceViewModel = new PrintInvoiceViewModel
+            {
+                Id = invoice.Id,
+                BookingId = invoice.BookingId,
+                CustomerName = invoice.CustomerName,
+                Phone = invoice.Phone,
+                Vehicle = invoice.Vehicle,
+                Licence = invoice.Licence,
+                Comment = invoice.Comment,
+                InvoiceServices = invoice.InvoiceServices,
+                InvoiceParts = invoice.InvoiceParts,
+            };
+
+            return View(printInvoiceViewModel);
         }
 
         private bool InvoiceExists(string id)

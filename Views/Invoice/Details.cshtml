@@ -37,7 +37,7 @@
         <dt class="col-sm-2 col-md-2">
             @Html.DisplayNameFor(model => model.Comment)
         </dt>
-        <dd class="col-sm-10 col-md-4">
+        <dd class="col-sm-10 col-md-10">
             @Html.DisplayFor(model => model.Comment)
         </dd>
     </dl>
@@ -102,17 +102,17 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var service in Model.InvoiceParts)
+                @foreach (var part in Model.InvoiceParts)
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(model => service.Name)
+                            @Html.DisplayFor(model => part.Name)
                         </td>
                         <td>
-                            @Html.DisplayFor(model => service.Value)
+                            @Html.DisplayFor(model => part.Value)
                         </td>
                         <td>
-                            @Html.DisplayFor(model => service.Quantity)
+                            @Html.DisplayFor(model => part.Quantity)
                         </td>
                     </tr>
                 }
@@ -122,8 +122,8 @@
         {
             <thead>
                 <tr>
-                    <th>No Part</th><tr
-                >
+                    <th>No Part</th>
+                <tr>
             </thead>
         }
     </table>
