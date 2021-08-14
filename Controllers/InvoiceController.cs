@@ -131,8 +131,7 @@ namespace GarageManagementSystem.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    // TODO Booking Exist?
-                    if (!InvoiceExists(invoiceViewModel.Id))
+                    if (!BookingExists(invoiceViewModel.BookingId))
                     {
                         return NotFound();
                     }
@@ -249,39 +248,12 @@ namespace GarageManagementSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
+            // TODO
             var invoice = await _context.Invoice.FindAsync(id);
             _context.Invoice.Remove(invoice);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        public IActionResult AddService(string id)
-        {
-            if (id == null || !InvoiceExists(id))
-            {
-                return NotFound();
-            }
-
-            var invoiceService = new InvoiceServiceViewModel
-            {
-                InvoiceId = id,
-            };
-
-            ViewData["Id"] = id;
-            // REF https://www.aspsnippets.com/Articles/Implement-Grouped-DropDownList-using-OptGroup-in-ASPNet-MVC.aspx
-            ViewData["Service"] = _context.Service.OrderBy(s => s.Name).ToList().Select(p => new SelectListItem
-            {
-                Value = p.Id,
-                Text = p.Name + " - $" + p.Value,
-                Group = new SelectListGroup() {Name = "Service"},
-            }).ToList();
-
-            ViewBag.OptService= new SelectList(_context.Service.OrderBy(s => s.Name).ToList(), "Id", "Name", null,"Group");
-
-            return View(invoiceService);
-        }
-
-        [HttpPost]
+        }Invoice
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddService(string id, [Bind("Id,InvoiceId,ServiceId,Quantity")] InvoiceServiceViewModel invoiceServiceViewModel)
         {
@@ -374,6 +346,11 @@ namespace GarageManagementSystem.Controllers
         private bool InvoiceExists(string id)
         {
             return _context.Invoice.Any(e => e.Id == id);
+        }
+
+        private bool BookingExists(string id)
+        {
+            return _context.Booking.Any(e => e.Id == id);
         }
     }
 }
