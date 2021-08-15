@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace GarageManagementSystem.Controllers
 {
-    [Authorize(Roles="Administrator,Mechanic")]
+    [Authorize(Roles = "Administrator,Mechanic")]
     public class InvoiceController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -273,10 +273,10 @@ namespace GarageManagementSystem.Controllers
             {
                 Value = p.Id,
                 Text = p.Name + " - $" + p.Value,
-                Group = new SelectListGroup() {Name = "Service"},
+                Group = new SelectListGroup() { Name = "Service" },
             }).ToList();
 
-            ViewBag.OptService= new SelectList(_context.Service.OrderBy(s => s.Name).ToList(), "Id", "Name", null,"Group");
+            ViewBag.OptService = new SelectList(_context.Service.OrderBy(s => s.Name).ToList(), "Id", "Name", null, "Group");
 
             return View(invoiceService);
         }
@@ -303,6 +303,15 @@ namespace GarageManagementSystem.Controllers
             return View(invoiceServiceViewModel);
         }
 
+        public async Task<IActionResult> DeleteInvoiceService(string id, string invoiceServiceId)
+        {
+            var invoiceService = await _context.InvoicePart.FindAsync(invoiceServiceId);
+            _context.InvoicePart.Remove(invoiceService);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Details), new { id = id });
+        }
+
         public IActionResult AddPart(string id)
         {
             if (id == null || !InvoiceExists(id))
@@ -320,10 +329,10 @@ namespace GarageManagementSystem.Controllers
             {
                 Value = p.Id,
                 Text = p.Name + " - $" + p.Value,
-                Group = new SelectListGroup() {Name = "Part"},
+                Group = new SelectListGroup() { Name = "Part" },
             }).ToList();
 
-            ViewBag.OptPart= new SelectList(_context.Part.OrderBy(s => s.Name).ToList(), "Id", "Name", null,"Group");
+            ViewBag.OptPart = new SelectList(_context.Part.OrderBy(s => s.Name).ToList(), "Id", "Name", null, "Group");
 
             return View(invoicePart);
         }
@@ -348,6 +357,15 @@ namespace GarageManagementSystem.Controllers
             }
 
             return View(invoicePartViewModel);
+        }
+
+        public async Task<IActionResult> DeleteInvoicePart(string id, string invoicePartId)
+        {
+            var invoicePart = await _context.InvoicePart.FindAsync(invoicePartId);
+            _context.InvoicePart.Remove(invoicePart);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Details), new { id = id });
         }
 
         public async Task<IActionResult> PrintInvoice(string id)
