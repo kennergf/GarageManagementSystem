@@ -305,8 +305,8 @@ namespace GarageManagementSystem.Controllers
 
         public async Task<IActionResult> DeleteInvoiceService(string id, string invoiceServiceId)
         {
-            var invoiceService = await _context.InvoicePart.FindAsync(invoiceServiceId);
-            _context.InvoicePart.Remove(invoiceService);
+            var invoiceService = await _context.InvoiceService.FindAsync(invoiceServiceId);
+            _context.InvoiceService.Remove(invoiceService);
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Details), new { id = id });
