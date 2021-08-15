@@ -157,6 +157,342 @@ namespace GarageManagementSystem.Data
                 Value = 120.0M,
                 Group = "Main",
             });
+            // REF https://mannysmechanicalrepairs.com.au/services/complete-list-of-services/
+            // Brake
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Front And Rear Disc Brake Pad Replacement",
+                Value = 35.0M,
+                Group = "Brake",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Brake Cylinder Replacement",
+                Value = 45.0M,
+                Group = "Brake",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Brake Master Cylinder Replacement Or Reconditioning",
+                Value = 58.60M,
+                Group = "Brake",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Brake Caliper Overhaul",
+                Value = 13.0M,
+                Group = "Brake",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Brake Fluid Replacement",
+                Value = 16.05M,
+                Group = "Brake",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Brake Adjustment",
+                Value = 25.0M,
+                Group = "Brake",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Brake Pipe Replacement",
+                Value = 34.50M,
+                Group = "Brake",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Brake Shoe Replacement",
+                Value = 49.0M,
+                Group = "Brake",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Abs Module Replacement And Diagnosing",
+                Value = 55.40M,
+                Group = "Brake",
+            });
+            // Electrical
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Computer Fault Scaning And Diagnosis",
+                Value = 55.40M,
+                Group = "Electrical Repairs",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Starter Motor Replacement",
+                Value = 55.40M,
+                Group = "Electrical Repairs",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Charging System Testing",
+                Value = 55.40M,
+                Group = "Electrical Repairs",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Alternator Replacement",
+                Value = 55.40M,
+                Group = "Electrical Repairs",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Small Wiring Repairs",
+                Value = 55.40M,
+                Group = "Electrical Repairs",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Electric Window Repairs",
+                Value = 55.40M,
+                Group = "Electrical Repairs",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Head Light and Tail Light Repairs",
+                Value = 55.40M,
+                Group = "Electrical Repairs",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Ignition Testing",
+                Value = 55.40M,
+                Group = "Electrical Repairs",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Battery Testing and Replacing",
+                Value = 55.40M,
+                Group = "Electrical Repairs",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Ignition Module Testing And Replacing",
+                Value = 55.40M,
+                Group = "Electrical Repairs",
+            });
+            //Fuel
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Leaky Fuel Injector Repairs",
+                Value = 35.60M,
+                Group = "Fuel Injection",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Fuel Hose Replacement",
+                Value = 55.0M,
+                Group = "Fuel Injection",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Fuel Pump Replacement",
+                Value = 15.50M,
+                Group = "Fuel Injection",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Sensor Testing",
+                Value = 14.0M,
+                Group = "Fuel Injection",
+            });
+            // Suspension
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Suspension Checks",
+                Value = 25.30M,
+                Group = "Suspension and Steering",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Shock Absorber Replacement",
+                Value = 45.80M,
+                Group = "Suspension and Steering",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Ball Joints and Tie Rod End Replacement",
+                Value = 35.0M,
+                Group = "Suspension and Steering",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Suspension Springs Replaced ",
+                Value = 45.90M,
+                Group = "Suspension and Steering",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Wheel Alignment",
+                Value = 16.50M,
+                Group = "Suspension and Steering",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Front Wheel Bearing Replacement",
+                Value = 55.40M,
+                Group = "Suspension and Steering",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Rear Axle Bearings And Seals Replacement",
+                Value = 45.0M,
+                Group = "Suspension and Steering",
+            });
+            // Cooling System
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Thermofan Replacement",
+                Value = 23.0M,
+                Group = "Cooling System",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Fan & Drive Belt Replacment",
+                Value = 14.20M,
+                Group = "Cooling System",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Cooling System Leakage Tests",
+                Value = 18.0M,
+                Group = "Cooling System",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Radiator Replacement",
+                Value = 58.05M,
+                Group = "Cooling System",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Water Pump Replacement",
+                Value = 25.10M,
+                Group = "Cooling System",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Heater Hose and Heater Tap Replacement",
+                Value = 35.40M,
+                Group = "Cooling System",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Coolant Flush Replacement",
+                Value = 25.0M,
+                Group = "Cooling System",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Radiator Hose, Thermostat Replacement",
+                Value = 54.10M,
+                Group = "Cooling System",
+            });
+            // Engine
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Car Cylinder Head Reconditioning",
+                Value = 156.50M,
+                Group = "Engine",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Compression Tests",
+                Value = 46.10M,
+                Group = "Engine",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Vacuum Testing",
+                Value = 26.0M,
+                Group = "Engine",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Throtle Body Cleaning",
+                Value = 36.40M,
+                Group = "Engine",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Gas Analyser Checks",
+                Value = 19.0M,
+                Group = "Engine",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Manifold Gasket & Exhaust Repairs",
+                Value = 24.60M,
+                Group = "Engine",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Car Points Replacement",
+                Value = 35.20M,
+                Group = "Engine",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Timing Belt Replacement",
+                Value = 14.20M,
+                Group = "Engine",
+            });
+            services.Add(new Service
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Name = "Prepurchase Inspections",
+                Value = 55.10M,
+                Group = "Engine",
+            });
             builder.Entity<Service>().HasData(services);
         }
 
